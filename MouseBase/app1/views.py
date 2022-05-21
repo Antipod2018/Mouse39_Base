@@ -3,25 +3,34 @@ from django.http import HttpResponse, HttpResponseNotFound
 
 from .models import *
 
-menu = ["О приложении mouse39", "добавить товар", "login", "Сообщить об ошибке"]
+menu = [{'title': "О сайте", 'url_name': 'about'},
+        {'title': "Добавить товар", 'url_name': 'add_page'},
+        {'title': "Обратная связь", 'url_name': 'contact'},
+        {'title': "Войти", 'url_name': 'login'}
+]
 def index(request):
     posts = notebook.objects.all()
-    return render(request, 'notebooks/index.html', {'posts': posts, 'menu': menu, 'title': 'главная страница'})
+    context = {
+        'posts': posts,
+        'menu': menu,
+        'title': 'Mouse39'
+    }
+    return render(request, 'notebooks/index.html', context=context)
 
 def about(request):
     return render(request, 'notebooks/about.html', {'menu': menu , 'title': 'о приложении'})
 
-def categories(request, catid):
-    if (request.GET):
-        print(request.GET)
-    return HttpResponse(f"<h1>Страница с ноутами</h1><p>{catid}</p>")
+def addpage(request):
+    return HttpResponse("Добавить товар")
 
+def contact(request):
+    return HttpResponse("Добавить товар")
 
-def archive(request, year):
-    if int(year) > 2020:
-        return redirect('/')
-    return HttpResponse(f"<h1>Архив ноутов по датам</h1><p>{year}</p>")
+def login(request):
+    return HttpResponse("Авторизация")
 
+def show_post(request, post_id):
+    return HttpResponse(f"отображение товара с ID = {post_id}")
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Not found</h1>')

@@ -20,8 +20,12 @@ from MouseBase import settings
 from app1.views import *  # значит что мы импортируем все функции из app1.views
 
 urlpatterns = [
-    path('', index),
-    path('about/', about, name='about')
+    path('', index, name='home'),
+    path('about/', about, name='about'),
+    path('addpage/', addpage, name='add_page'),
+    path('contact', contact, name='contact'),
+    path('login', login, name='login'),
+    path('post/<int:post_id>/', show_post, name='post'),
 ]
 
 if settings.DEBUG:
